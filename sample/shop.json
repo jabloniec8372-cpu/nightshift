@@ -1,0 +1,15 @@
+{
+  "shop": "Lotte's Kitchen Corner (demo shop)",
+  "products": [
+    {"sku": "TEA-001", "title": "Matcha starter set", "price": 24.99, "stock": 20},
+    {"sku": "MUG-002", "title": "Stoneware mug, sage", "price": 8.99, "stock": 12},
+    {"sku": "LAMP-003", "title": "Kitchen pendant lamp", "price": 28.99, "stock": 0},
+    {"sku": "KNIFE-004", "title": "Santoku knife 18 cm", "price": 26.99, "stock": 14},
+    {"sku": "CANDLE-005", "title": "Beeswax candle", "price": 5.99, "stock": 50},
+    {"sku": "BOARD-006", "title": "Olive wood board", "price": 34.99, "stock": 6},
+    {"sku": "TOWEL-007", "title": "Linen tea towel", "price": 9.99, "stock": 25},
+    {"sku": "KETTLE-008", "title": "Gooseneck kettle", "price": 27.99, "stock": 9},
+    {"sku": "SPICE-009", "title": "Smoked paprika tin", "price": 4.49, "stock": 30},
+    {"sku": "GRINDER-010", "title": "Pepper grinder", "price": 16.99, "stock": 0}
+  ]
+}
