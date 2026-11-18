@@ -67,6 +67,36 @@ Suppliers rarely send clean English CSVs. NightShift reads comma, semicolon or t
 
 Any scheduler works: cron on a small server, Windows Task Scheduler, or a scheduled GitHub Action.
 
+## Level 2: forwarding orders, live
+
+The night sync compares two files. Real dropshipping also needs every new order passed to the supplier and the tracking number passed back to the customer. That is where things really break, so Level 2 is built around the bad moments:
+
+| What goes wrong | What NightShift does |
+|---|---|
+| The shop sends the same order twice (webhooks are "at least once") | Recognises it and ignores the copy, so the customer isn't shipped two kettles |
+| Someone posts a fake order to the webhook | Checks Shopify's HMAC signature and rejects it |
+| Supplier API is down | Retries with growing pauses (2, 4, 8 ... min), gives up after 5 tries and tells you |
+| Order has something this supplier doesn't sell | Sends nothing, flags it for you |
+| Address is broken | Supplier refuses, NightShift stops retrying and flags it |
+| The program restarts in the middle of the night | Every order lives in SQLite with its status, nothing is lost |
+
+See it on a simulated busy night (no network needed):
+
+```bash
+python -m nightshift.busy_night
+```
+
+```
+23:00 order 5001002 arrived again - duplicate ignored
+23:06 rejected a webhook with a wrong signature (not from the shop)
+23:16 order 5001003: supplier down (HTTP 503 from supplier API), try 1, next in 2 min
+23:20 order 5001004: supplier doesn't sell BOARD-006 - nothing sent, needs you
+23:30 order 5001003 forwarded to supplier as SUP-003
+01:30 order 5001003 shipped, tracking DHL-00340003 sent to the customer
+
+By morning: 2 needs_human, 4 shipped
+```
+
 ## Tests
 
 ```bash
